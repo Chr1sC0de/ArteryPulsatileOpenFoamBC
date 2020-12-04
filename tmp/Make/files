@@ -1,0 +1,3 @@
+arterySteadyScalingLawInletFvPatchVectorField.C
+
+LIB = $(FOAM_USER_LIBBIN)/libarterySteadyScalingLawInlet

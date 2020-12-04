@@ -1,3 +1,4 @@
-/lninclude
-pulsatilePipeInletFvPatchVectorField.dep
-/Make/linux*
+*/lninclude
+*.dep
+*/Make/linux*
+*/0.*/*

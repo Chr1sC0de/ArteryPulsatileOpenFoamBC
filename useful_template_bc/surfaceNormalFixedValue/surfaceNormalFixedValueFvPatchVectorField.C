@@ -134,7 +134,7 @@ void Foam::surfaceNormalFixedValueFvPatchVectorField::rmap
 void Foam::surfaceNormalFixedValueFvPatchVectorField::write(Ostream& os) const
 {
     fvPatchVectorField::write(os);
-    refValue_.writeEntry("refValue", os);
+    os.writeKeyword("")
 }
 
 

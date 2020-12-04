@@ -4,9 +4,13 @@
         "*.glf": "tcl",
         "bashrc": "shellscript",
         "options": "shellscript",
+        "controlDict": "cpp",
         "prescribedPipeInletFvPatchVectorField.C": "cpp",
         "surfaceNormalFixedValueFvPatchVectorField.C": "cpp",
         "pulsatilePipeInletFvPatchVectorField.C": "cpp",
-        "fvPatchFieldNew.C": "cpp"
+        "fvPatchFieldNew.C": "cpp",
+        "cmath": "cpp",
+        "arterySteadyFlowScalingLawInflowFvPatchVectorField.C": "cpp",
+        "arterySteadyScalingLawInletFvPatchVectorField.C": "cpp"
     }
 }
