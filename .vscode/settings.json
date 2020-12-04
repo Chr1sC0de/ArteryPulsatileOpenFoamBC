@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "RunFunctions": "shellscript",
+        "*.glf": "tcl",
+        "bashrc": "shellscript",
+        "options": "shellscript",
+        "prescribedPipeInletFvPatchVectorField.C": "cpp",
+        "surfaceNormalFixedValueFvPatchVectorField.C": "cpp",
+        "pulsatilePipeInletFvPatchVectorField.C": "cpp",
+        "fvPatchFieldNew.C": "cpp"
+    }
+}
