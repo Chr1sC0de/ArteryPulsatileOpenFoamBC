@@ -135,9 +135,9 @@ void Foam::arterySteadyScalingLawInletFvPatchVectorField::write(Ostream& os) con
     // // the flow rate is in m^3/s
     // scalar inletVelocity_;
     fvPatchVectorField::write(os);
-    os.writeKeyword("areaTotal") << areaTotal_ << token::END_STATEMENT << nl;
+    os.writeKeyword("area") << areaTotal_ << token::END_STATEMENT << nl;
     os.writeKeyword("areaAssumedDiameter") << areaAssumedDiameter_ << token::END_STATEMENT << nl;
-    os.writeKeyword("inletVelocity") << inletVelocity_ << token::END_STATEMENT << nl;
+    os.writeKeyword("velocity") << inletVelocity_ << token::END_STATEMENT << nl;
     // writeEntry("value", os);
 }
 
