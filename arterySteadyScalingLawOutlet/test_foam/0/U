@@ -30,14 +30,12 @@ boundaryField
 	INLET
 	{
 		type     arterySteadyScalingLawInlet;
-        // type     surfaceNormalFixedValue;
-        // refValue 0.4;
 	}
 
     OUTLET_1
     {
         type           arterySteadyScalingLawOutlet;
-        inletPatchName INLET; //note necessary unless we change the inlet patch name
+        inletPatchName INLET; //NOTE: only necessary ff we change the inlet patch name
         oppositeOutletPatchName OUTLET_2;
     }
 
