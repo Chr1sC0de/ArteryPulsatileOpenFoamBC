@@ -38,7 +38,7 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(sum(patch().magSf())),
+    areaTotal_(gSum(patch().magSf())),
     areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
     inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
 {}
@@ -54,7 +54,7 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(sum(patch().magSf())),
+    areaTotal_(gSum(patch().magSf())),
     areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
     inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
 {}
@@ -69,12 +69,12 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(sum(patch().magSf())),
+    areaTotal_(gSum(patch().magSf())),
     areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
     inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
 {
     // Note: No need to have an updateCoeff method as the inlet value is constant 
-    fvPatchVectorField::operator=(patch().nf()*inletVelocity_);
+    fvPatchVectorField::operator=(-patch().nf()*inletVelocity_);
 }
 
 

@@ -1,4 +1,5 @@
-*/lninclude
-*.dep
-*/Make/linux*
-*/0.*/*
+**/lninclude
+**/*.dep
+**/Make/linux*
+**/0.*/*
+**/.vscode/

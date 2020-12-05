@@ -11,6 +11,7 @@
         "fvPatchFieldNew.C": "cpp",
         "cmath": "cpp",
         "arterySteadyFlowScalingLawInflowFvPatchVectorField.C": "cpp",
-        "arterySteadyScalingLawInletFvPatchVectorField.C": "cpp"
+        "arterySteadyScalingLawInletFvPatchVectorField.C": "cpp",
+        "arterySteadyScalingLawOutletFvPatchVectorField.C": "cpp"
     }
 }
