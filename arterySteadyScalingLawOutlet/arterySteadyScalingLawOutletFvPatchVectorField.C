@@ -75,7 +75,7 @@ arterySteadyScalingLawOutletFvPatchVectorField
     // lets start by reading in the inlet and outlet patch names
     inletPatchName_          = dict.lookupOrDefault<word>("inletPatchName", "INLET");
     oppositeOutletPatchName_ = dict.lookupOrDefault<word>(
-        "oppositeOutletPatchName", "OUTLET");
+        "oppositeOutletPatchName", "OUTLET_2");
 
     const fvMesh & mesh              = patch().boundaryMesh().mesh();
     const surfaceScalarField & magSf = mesh.magSf();
