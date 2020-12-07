@@ -131,43 +131,35 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::rmap
 
 void Foam::arteryScalingLawOutletFvPatchVectorField::updateCoeffs()
 {
-    if (updated()){
-        return;
-    }
+    if (updated()){ return; }
+    // get the boundary mesh and the surface scalar fields
     const fvMesh & mesh              = patch().boundaryMesh().mesh();
     const surfaceScalarField & magSf = mesh.magSf();
-
+    // find the labels for the inlet and oulet patchs
     const label inletLabel         = mesh.boundaryMesh().findPatchID(inletPatchName_);
-    const label oppositePatchLabel = mesh.boundaryMesh().findPatchID(
-        oppositeOutletPatchName_);
-
-    const scalarField & inletAreas_ = magSf.boundaryField()[inletLabel];
+    const label oppositePatchLabel = mesh.boundaryMesh().findPatchID(oppositeOutletPatchName_);
     // get the areas of each of the patches
+    const scalarField & inletAreas_ = magSf.boundaryField()[inletLabel];
     const scalar inletPatchAreaTotal_          = gSum(inletAreas_);
     const scalar currentOutletPatchAreaTotal_  = gSum(patch().magSf());
     const scalar oppositeOutletPatchAreaTotal_ = gSum(magSf.boundaryField()[oppositePatchLabel]);
-
-    // get the area assumed diameters of each of the patches
+    // get the area assumed diameters of each of the inlet
     const scalar inletPatchAreaAssumedDiameter_          = 2*std::sqrt(inletPatchAreaTotal_/PI);
-
     // get the flow rate ratio of the inlet and outlet diameters 
     const scalar q_opp_over_q_current = std::pow(oppositeOutletPatchAreaTotal_/currentOutletPatchAreaTotal_, 2.27);
-
+    // get the current time steps and set a variable for the inlet flow rate
     scalar t = this->db().time().value();
     scalar inletPatchFlowRate_;
-
     // now calculate the flow rate of the inlet patch, if the time is 0 we need to assume an inlet velocity
     // as the velocity fields have not been calculated
     if (t==0.)
     {
         inletPatchFlowRate_ = 1.43*std::pow(inletPatchAreaAssumedDiameter_, 2.55);
-    } else
-    {
+    } else {
         scalarField magInletVelocities_ = 
             mag(mesh.boundary()[inletLabel].lookupPatchField<volVectorField, vector>("U"));
         inletPatchFlowRate_ = gSum(inletAreas_*magInletVelocities_);
     }
-
     // get the flow rates for the opposite outlet and the current outlet
     scalar oppositeOutletPatchFlowRate_ = 
         q_opp_over_q_current * inletPatchFlowRate_ / (q_opp_over_q_current + 1);
@@ -176,10 +168,9 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::updateCoeffs()
     // get the patch velocity 
     scalar currenOutletPatchVelocity_ = 
         currentOutletPatchFlowRate_/currentOutletPatchAreaTotal_;
-
+    //update the velocity field of the current outlet patch
     vectorField & field(*this);
     field = patch().nf() * currenOutletPatchVelocity_;
-    
 }
 
 
