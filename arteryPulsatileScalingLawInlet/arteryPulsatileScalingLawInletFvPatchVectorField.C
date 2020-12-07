@@ -38,9 +38,9 @@ arteryPulsatileScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(sum(patch().magSf())),
-    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
-    inletVelocity_(1.43*std::pow(areaAssumedDiameter_, 2.55)/areaTotal_),
+    areaTotal_(0.),
+    areaAssumedDiameter_(0.),
+    inletVelocity_(0.),
     cardiacCycle_(0.)
 {}
 
@@ -55,10 +55,10 @@ arteryPulsatileScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(sum(patch().magSf())),
-    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
-    inletVelocity_(1.43*std::pow(areaAssumedDiameter_, 2.55)/areaTotal_),
-    cardiacCycle_(0.)
+    areaTotal_(ptf.areaTotal_),
+    areaAssumedDiameter_(ptf.areaAssumedDiameter_),
+    inletVelocity_(ptf.inletVelocity_),
+    cardiacCycle_(ptf.cardiacCycle_)
 {}
 
 

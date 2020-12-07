@@ -38,26 +38,10 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(gSum(patch().magSf())),
-    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
-    inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
-{}
-
-
-Foam::arterySteadyScalingLawInletFvPatchVectorField::
-arterySteadyScalingLawInletFvPatchVectorField
-(
-    const arterySteadyScalingLawInletFvPatchVectorField& ptf,
-    const fvPatch& p,
-    const DimensionedField<vector, volMesh>& iF,
-    const fvPatchFieldMapper& mapper
-)
-:
-    fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(gSum(patch().magSf())),
-    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
-    inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
-{}
+    areaTotal_(0.),
+    areaAssumedDiameter_(0.),
+    inletVelocity_(0.)
+{ }
 
 
 Foam::arterySteadyScalingLawInletFvPatchVectorField::
@@ -76,6 +60,22 @@ arterySteadyScalingLawInletFvPatchVectorField
     // Note: No need to have an updateCoeff method as the inlet value is constant 
     fvPatchVectorField::operator=(-patch().nf()*inletVelocity_);
 }
+
+
+Foam::arterySteadyScalingLawInletFvPatchVectorField::
+arterySteadyScalingLawInletFvPatchVectorField
+(
+    const arterySteadyScalingLawInletFvPatchVectorField& ptf,
+    const fvPatch& p,
+    const DimensionedField<vector, volMesh>& iF,
+    const fvPatchFieldMapper& mapper
+)
+:
+    fixedValueFvPatchVectorField(p, iF),
+    areaTotal_(ptf.areaTotal_),
+    areaAssumedDiameter_(ptf.areaAssumedDiameter_),
+    inletVelocity_(ptf.inletVelocity_)
+{}
 
 
 Foam::arterySteadyScalingLawInletFvPatchVectorField::

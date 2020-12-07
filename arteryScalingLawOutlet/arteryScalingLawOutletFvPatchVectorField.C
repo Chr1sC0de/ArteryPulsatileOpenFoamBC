@@ -53,8 +53,8 @@ arteryScalingLawOutletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    inletPatchName_("INLET"),
-    oppositeOutletPatchName_("OUTLET_2")
+    inletPatchName_(ptf.inletPatchName_),
+    oppositeOutletPatchName_(ptf.oppositeOutletPatchName_)
 {}
 
 
