@@ -1,2 +1,0 @@
-wclean libso
-rm Make/linux* -rf
