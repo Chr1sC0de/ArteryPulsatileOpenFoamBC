@@ -44,24 +44,6 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     cardiacCycle_(0.)
 {}
 
-
-Foam::arteryPulsatileScalingLawInletFvPatchVectorField::
-arteryPulsatileScalingLawInletFvPatchVectorField
-(
-    const arteryPulsatileScalingLawInletFvPatchVectorField& ptf,
-    const fvPatch& p,
-    const DimensionedField<vector, volMesh>& iF,
-    const fvPatchFieldMapper& mapper
-)
-:
-    fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(ptf.areaTotal_),
-    areaAssumedDiameter_(ptf.areaAssumedDiameter_),
-    inletVelocity_(ptf.inletVelocity_),
-    cardiacCycle_(ptf.cardiacCycle_)
-{}
-
-
 Foam::arteryPulsatileScalingLawInletFvPatchVectorField::
 arteryPulsatileScalingLawInletFvPatchVectorField
 (
@@ -81,6 +63,22 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     cardiacCycle_ = dict.lookupOrDefault<scalar>("cardiacCycle", 0.8);
     updateCoeffs();
 }
+
+Foam::arteryPulsatileScalingLawInletFvPatchVectorField::
+arteryPulsatileScalingLawInletFvPatchVectorField
+(
+    const arteryPulsatileScalingLawInletFvPatchVectorField& ptf,
+    const fvPatch& p,
+    const DimensionedField<vector, volMesh>& iF,
+    const fvPatchFieldMapper& mapper
+)
+:
+    fixedValueFvPatchVectorField(p, iF),
+    areaTotal_(ptf.areaTotal_),
+    areaAssumedDiameter_(ptf.areaAssumedDiameter_),
+    inletVelocity_(ptf.inletVelocity_),
+    cardiacCycle_(ptf.cardiacCycle_)
+{}
 
 
 Foam::arteryPulsatileScalingLawInletFvPatchVectorField::

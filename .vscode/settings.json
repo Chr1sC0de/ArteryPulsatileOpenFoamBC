@@ -5,6 +5,7 @@
         "bashrc": "shellscript",
         "options": "shellscript",
         "controlDict": "cpp",
+        "U": "cpp",
         "prescribedPipeInletFvPatchVectorField.C": "cpp",
         "surfaceNormalFixedValueFvPatchVectorField.C": "cpp",
         "pulsatilePipeInletFvPatchVectorField.C": "cpp",
@@ -12,6 +13,7 @@
         "cmath": "cpp",
         "arterySteadyFlowScalingLawInflowFvPatchVectorField.C": "cpp",
         "arterySteadyScalingLawInletFvPatchVectorField.C": "cpp",
-        "arterySteadyScalingLawOutletFvPatchVectorField.C": "cpp"
+        "arterySteadyScalingLawOutletFvPatchVectorField.C": "cpp",
+        "arteryPulsatileScalingLawInletFvPatchVectorField.C": "cpp"
     }
 }

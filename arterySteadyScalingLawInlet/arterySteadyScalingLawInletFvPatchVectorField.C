@@ -38,10 +38,10 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(0.),
-    areaAssumedDiameter_(0.),
-    inletVelocity_(0.)
-{ }
+    areaTotal_(gSum(patch().magSf())),
+    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
+    inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
+{}
 
 
 Foam::arterySteadyScalingLawInletFvPatchVectorField::
@@ -138,7 +138,7 @@ void Foam::arterySteadyScalingLawInletFvPatchVectorField::write(Ostream& os) con
     os.writeKeyword("area") << areaTotal_ << token::END_STATEMENT << nl;
     os.writeKeyword("areaAssumedDiameter") << areaAssumedDiameter_ << token::END_STATEMENT << nl;
     os.writeKeyword("velocity") << inletVelocity_ << token::END_STATEMENT << nl;
-    // writeEntry("value", os);
+    writeEntry("value", os);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
