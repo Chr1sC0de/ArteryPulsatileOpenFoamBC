@@ -1,0 +1,10 @@
+bc_folders="arteryPulsatileScalingLawInlet arteryScalingLawOutlet arterySteadyScalingLawInlet"
+
+for folder in $bc_folders; do
+    cd $folder
+    echo "Cleaning $folder"
+    ./Allwclean
+    echo "Completed Cleaning $folder"
+    echo ""
+    cd ..
+done
