@@ -7,11 +7,16 @@ To install all boundary conditions source the OpenFOAM 2.1.1 .bashrc and run
 
 ``` shell
     # download the github repository
+    git clone https://github.com/Chr1sC0de/ArteryScalingLawsBC.git
+    # change directories to the repo and allow permission to the ./Allwmake and ./Allwclean files
+    chmod -R +x ArteryScalingLawsBC
+    cd  ArteryScalingLawsBC
+    # install the repo
     ./Allwmake
 ```
 
 To clean the installation run
 
 ``` shell
-    ./Allwmake
+    ./Allwclean
 ```

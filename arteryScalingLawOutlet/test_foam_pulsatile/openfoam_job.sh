@@ -20,11 +20,9 @@ mpirun ericNonNewtonianImplicitFoam -parallel > $PBS_JOBID.log
 reconstructPar
 # now remove the processor folders to save space
 rm -rf processor*
-# remove all timesteps apart from the latest timestep
-rm -rf 0.1 0.2 0.3
-# calculate the wall shear stress
-ericWallTractionShearStress -latestTime
-# calculate get the vtk data
-foamToVTK -latestTime
+# calculate the wall shear stress for all timesteps
+ericWallTractionShearStress 
+# calculate get the vtk data for all timesteps
+foamToVTK
 # create a job
 touch completed.tmp
