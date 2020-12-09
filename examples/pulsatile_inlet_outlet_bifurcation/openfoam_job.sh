@@ -8,10 +8,10 @@
 
 # Unload modules.
 module rm openmpi intel-cc intel-fc
+module load openmpi/4.0.2
 
 # Load modules and set the values.
 . /scratch/m45/cm5094/OpenFOAM/OpenFOAM-2.1.1/etc/bashrc
-module load openmpi/4.0.2
 
 # decompose the case into the desired number of cores
 decomposePar
@@ -24,5 +24,3 @@ rm -rf processor*
 ericWallTractionShearStress 
 # calculate get the vtk data for all timesteps
 foamToVTK
-# create a job
-touch completed.tmp
