@@ -59,6 +59,8 @@ class arteryScalingLawOutletFvPatchVectorField
     // Private data
     word inletPatchName_;
     word oppositeOutletPatchName_;
+    scalar magnitudeVelocity_;
+    vectorField values_;
 
 
 public:

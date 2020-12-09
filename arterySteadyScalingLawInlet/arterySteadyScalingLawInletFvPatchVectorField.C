@@ -38,9 +38,10 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(gSum(patch().magSf())),
-    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
-    inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
+    area_(0.),
+    areaAssumedDiameter_(0.),
+    magnitudeVelocity_(0.),
+    values_(p.size())
 {}
 
 
@@ -53,12 +54,27 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(gSum(patch().magSf())),
-    areaAssumedDiameter_(2*std::sqrt(areaTotal_/PI)),
-    inletVelocity_(1.43*pow(areaAssumedDiameter_, 2.55)/areaTotal_)
+    area_(0.),
+    areaAssumedDiameter_(0.),
+    magnitudeVelocity_(0.),
+    values_(p.size())
 {
-    // Note: No need to have an updateCoeff method as the inlet value is constant 
-    fvPatchVectorField::operator=(-patch().nf()*inletVelocity_);
+
+    if (dict.found("values")){
+        dict.lookup("area") >> area_;
+        dict.lookup("areaAssumedDiameter") >> areaAssumedDiameter_;
+        dict.lookup("magnitudeVelocity") >> magnitudeVelocity_;
+        vectorField data("values", dict, p.size());
+        values_ = data;
+        fvPatchVectorField::operator=(values_);
+    } else {
+        area_                = dict.lookupOrDefault("area", gSum(patch().magSf()));
+        areaAssumedDiameter_ = dict.lookupOrDefault("areaAssumedDiameter",2*std::sqrt(area_/PI));
+        const scalar flowRateTotal = 1.43*pow(areaAssumedDiameter_, 2.55);
+        magnitudeVelocity_ = flowRateTotal/area_;
+        values_             = -patch().nf()*magnitudeVelocity_;
+        fvPatchVectorField::operator=(values_);
+    }
 }
 
 
@@ -72,9 +88,10 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(p, iF),
-    areaTotal_(ptf.areaTotal_),
+    area_(ptf.area_),
     areaAssumedDiameter_(ptf.areaAssumedDiameter_),
-    inletVelocity_(ptf.inletVelocity_)
+    magnitudeVelocity_(ptf.magnitudeVelocity_),
+    values_(ptf.values_)
 {}
 
 
@@ -85,9 +102,10 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(pivpvf),
-    areaTotal_(pivpvf.areaTotal_),
+    area_(pivpvf.area_),
     areaAssumedDiameter_(pivpvf.areaAssumedDiameter_),
-    inletVelocity_(pivpvf.inletVelocity_)
+    magnitudeVelocity_(pivpvf.magnitudeVelocity_),
+    values_(pivpvf.values_)
 {}
 
 
@@ -99,9 +117,10 @@ arterySteadyScalingLawInletFvPatchVectorField
 )
 :
     fixedValueFvPatchVectorField(pivpvf, iF),
-    areaTotal_(pivpvf.areaTotal_),
+    area_(pivpvf.area_),
     areaAssumedDiameter_(pivpvf.areaAssumedDiameter_),
-    inletVelocity_(pivpvf.inletVelocity_)
+    magnitudeVelocity_(pivpvf.magnitudeVelocity_),
+    values_(pivpvf.values_)
 {}
 
 
@@ -129,16 +148,12 @@ void Foam::arterySteadyScalingLawInletFvPatchVectorField::rmap
 
 void Foam::arterySteadyScalingLawInletFvPatchVectorField::write(Ostream& os) const
 {
-    // scalar areaTotal_;
-    // // the area is in metres calculated by the constructors
-    // scalar areaAssumedDiameter_;
-    // // the flow rate is in m^3/s
-    // scalar inletVelocity_;
     fvPatchVectorField::write(os);
-    os.writeKeyword("area") << areaTotal_ << token::END_STATEMENT << nl;
+    os.writeKeyword("area") << area_ << token::END_STATEMENT << nl;
     os.writeKeyword("areaAssumedDiameter") << areaAssumedDiameter_ << token::END_STATEMENT << nl;
-    os.writeKeyword("velocity") << inletVelocity_ << token::END_STATEMENT << nl;
-    writeEntry("value", os);
+    os.writeKeyword("magnitudeVelocity") << magnitudeVelocity_ << token::END_STATEMENT << nl;
+    values_.writeEntry("values", os);
+
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

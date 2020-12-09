@@ -57,11 +57,13 @@ class arterySteadyScalingLawInletFvPatchVectorField
 {
     // Private data
         // the area is in metres calculated by the constructors
-        scalar areaTotal_;
+        scalar area_;
         // the area is in metres calculated by the constructors
         scalar areaAssumedDiameter_;
         // the flow rate is in m^3/s
-        scalar inletVelocity_;
+        scalar magnitudeVelocity_;
+        // the value of the inlet patch
+        vectorField values_;
 
 
 public:

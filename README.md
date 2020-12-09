@@ -6,17 +6,17 @@ paper [Functional and anatomical measures for outflow boundary conditions in ath
 To install all boundary conditions source the OpenFOAM 2.1.1 .bashrc and run
 
 ``` shell
-    # Download the github repository
-    git clone https://github.com/Chr1sC0de/ArteryScalingLawsBC.git
-    # Provide permission to all the ./Allwmake and ./Allwclean files
-    chmod -R +x ArteryScalingLawsBC
-    cd  ArteryScalingLawsBC
-    # Install the boundary conditions
-    ./Allwmake
+# Download the github repository
+git clone https://github.com/Chr1sC0de/ArteryScalingLawsBC.git
+# Provide permission to all the ./Allwmake and ./Allwclean files
+chmod -R +x ArteryScalingLawsBC
+cd  ArteryScalingLawsBC
+# Install the boundary conditions
+./Allwmake
 ```
 
 To clean the installation run
 
 ``` shell
-    ./Allwclean
+./Allwclean
 ```

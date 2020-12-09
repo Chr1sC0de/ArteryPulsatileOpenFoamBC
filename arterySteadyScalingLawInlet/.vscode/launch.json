@@ -11,7 +11,7 @@
             "program": "/home/cmamon/OpenFOAM/OpenFOAM-2.1.1/platforms/linux64Gcc48DPDebug/bin/icoFoam",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/test_foam",
+            "cwd": "${workspaceFolder}/../examples/steady_inlet_single_vessel",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -31,7 +31,27 @@
             "program": "/home/cmamon/OpenFOAM/OpenFOAM-2.1.1/platforms/linux64Gcc48DPDebug/bin/decomposePar",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/test_foam",
+            "cwd": "${workspaceFolder}/../examples/steady_inlet_single_vessel",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "run reconstructPar",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/cmamon/OpenFOAM/OpenFOAM-2.1.1/platforms/linux64Gcc48DPDebug/bin/reconstructPar",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/../examples/steady_inlet_single_vessel",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

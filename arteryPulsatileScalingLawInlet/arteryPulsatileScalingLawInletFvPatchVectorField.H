@@ -57,13 +57,20 @@ class arteryPulsatileScalingLawInletFvPatchVectorField
 {
     // Private data
         // the area is in metres calculated by the constructors
-        scalar areaTotal_;
+        scalar area_;
         // area assumed diameter
         scalar areaAssumedDiameter_;
         // the flow rate is in m^3/s
-        scalar inletVelocity_;
+        scalar meanVelocity_;
         // cardiac cycle
         scalar cardiacCycle_;
+        // velocity magnitude
+        scalar magnitudeVelocity_;
+        // switchOn
+        scalar switchOn_;
+        // values
+        vectorField values_;
+
 
 
 public:

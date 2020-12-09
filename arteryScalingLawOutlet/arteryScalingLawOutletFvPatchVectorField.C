@@ -39,22 +39,9 @@ arteryScalingLawOutletFvPatchVectorField
 :
     fixedValueFvPatchVectorField(p, iF),
     inletPatchName_("INLET"),
-    oppositeOutletPatchName_("OUTLET_2")
-{}
-
-
-Foam::arteryScalingLawOutletFvPatchVectorField::
-arteryScalingLawOutletFvPatchVectorField
-(
-    const arteryScalingLawOutletFvPatchVectorField& ptf,
-    const fvPatch& p,
-    const DimensionedField<vector, volMesh>& iF,
-    const fvPatchFieldMapper& mapper
-)
-:
-    fixedValueFvPatchVectorField(p, iF),
-    inletPatchName_(ptf.inletPatchName_),
-    oppositeOutletPatchName_(ptf.oppositeOutletPatchName_)
+    oppositeOutletPatchName_("OUTLET_2"),
+    magnitudeVelocity_(0.),
+    values_(p.size())
 {}
 
 
@@ -68,18 +55,43 @@ arteryScalingLawOutletFvPatchVectorField
 :
     fixedValueFvPatchVectorField(p, iF),
     inletPatchName_("INLET"),
-    oppositeOutletPatchName_("OUTLET")
+    oppositeOutletPatchName_("OUTLET_2"),
+    magnitudeVelocity_(0.),
+    values_(p.size())
 {
     // Note: No need to have an updateCoeff method as the inlet value is constant 
     // fvPatchVectorField::operator=(patch().nf()*inletVelocity_);
     // lets start by reading in the inlet and outlet patch names
+    // fvPatchVectorField::operator=(patch().nf()*0.);
+
     inletPatchName_          = dict.lookupOrDefault<word>("inletPatchName", "INLET");
     oppositeOutletPatchName_ = dict.lookupOrDefault<word>("oppositeOutletPatchName", "OUTLET_2");
-
-
-    // fvPatchVectorField::operator=(patch().nf()*currenOutletPatchVelocity_);
-    updateCoeffs();
+    if (dict.found("values")){
+        dict.lookup("magnitudeVelocity") >> magnitudeVelocity_;
+        vectorField data("values", dict, p.size()) ;
+        values_ = data;
+        fvPatchVectorField::operator=(values_);
+    } else {
+        updateCoeffs();
+    }
 }
+
+
+Foam::arteryScalingLawOutletFvPatchVectorField::
+arteryScalingLawOutletFvPatchVectorField
+(
+    const arteryScalingLawOutletFvPatchVectorField& ptf,
+    const fvPatch& p,
+    const DimensionedField<vector, volMesh>& iF,
+    const fvPatchFieldMapper& mapper
+)
+:
+    fixedValueFvPatchVectorField(p, iF),
+    inletPatchName_(ptf.inletPatchName_),
+    oppositeOutletPatchName_(ptf.oppositeOutletPatchName_),
+    magnitudeVelocity_(ptf.magnitudeVelocity_),
+    values_(ptf.values_)
+{}
 
 
 Foam::arteryScalingLawOutletFvPatchVectorField::
@@ -90,7 +102,9 @@ arteryScalingLawOutletFvPatchVectorField
 :
     fixedValueFvPatchVectorField(pivpvf),
     inletPatchName_(pivpvf.inletPatchName_),
-    oppositeOutletPatchName_(pivpvf.oppositeOutletPatchName_)
+    oppositeOutletPatchName_(pivpvf.oppositeOutletPatchName_),
+    magnitudeVelocity_(pivpvf.magnitudeVelocity_),
+    values_(pivpvf.values_)
 {}
 
 
@@ -103,7 +117,9 @@ arteryScalingLawOutletFvPatchVectorField
 :
     fixedValueFvPatchVectorField(pivpvf, iF),
     inletPatchName_(pivpvf.inletPatchName_),
-    oppositeOutletPatchName_(pivpvf.oppositeOutletPatchName_)
+    oppositeOutletPatchName_(pivpvf.oppositeOutletPatchName_),
+    magnitudeVelocity_(pivpvf.magnitudeVelocity_),
+    values_(pivpvf.values_)
 {}
 
 
@@ -148,8 +164,10 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::updateCoeffs()
     // get the flow rate ratio of the inlet and outlet diameters 
     const scalar q_opp_over_q_current = std::pow(oppositeOutletPatchAreaTotal_/currentOutletPatchAreaTotal_, 2.27);
     // get the current time steps and set a variable for the inlet flow rate
+
     scalar t = this->db().time().value();
     scalar inletPatchFlowRate_;
+
     // now calculate the flow rate of the inlet patch, if the time is 0 we need to assume an inlet velocity
     // as the velocity fields have not been calculated
     if (t==0.)
@@ -166,11 +184,13 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::updateCoeffs()
     scalar currentOutletPatchFlowRate_ = 
         inletPatchFlowRate_ - oppositeOutletPatchFlowRate_;
     // get the patch velocity 
-    scalar currenOutletPatchVelocity_ = 
+    magnitudeVelocity_ = 
         currentOutletPatchFlowRate_/currentOutletPatchAreaTotal_;
+    values_ = patch().nf() * magnitudeVelocity_;
     //update the velocity field of the current outlet patch
-    vectorField & field(*this);
-    field = patch().nf() * currenOutletPatchVelocity_;
+    this->operator==(values_);
+    // call the base class to ensure all the appropriate variables get updated
+    fixedValueFvPatchVectorField::updateCoeffs();
 }
 
 
@@ -179,6 +199,8 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::write(Ostream& os) const
     fvPatchVectorField::write(os);
     os.writeKeyword("inletPatchName") << inletPatchName_ << token::END_STATEMENT << nl;
     os.writeKeyword("oppositeOutletPatchName") << oppositeOutletPatchName_ << token::END_STATEMENT << nl;
+    os.writeKeyword("magnitudeVelocity") << magnitudeVelocity_ << token::END_STATEMENT << nl;
+    values_.writeEntry("values", os);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

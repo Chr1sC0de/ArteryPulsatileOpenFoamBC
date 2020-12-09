@@ -14,6 +14,21 @@
         "arterySteadyFlowScalingLawInflowFvPatchVectorField.C": "cpp",
         "arterySteadyScalingLawInletFvPatchVectorField.C": "cpp",
         "fixedValueFvPatchField.C": "cpp",
-        "fvPatchField.C": "cpp"
+        "fvPatchField.C": "cpp",
+        "arteryPulsatileScalingLawInletFvPatchVectorField.C": "cpp",
+        "arteryScalingLawOutletFvPatchVectorField.C": "cpp",
+        "reconstructPar.C": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstdint": "cpp",
+        "exception": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "*.tcc": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp",
+        "Field.C": "cpp"
     }
 }
