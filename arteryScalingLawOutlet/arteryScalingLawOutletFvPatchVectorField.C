@@ -40,8 +40,7 @@ arteryScalingLawOutletFvPatchVectorField
     fixedValueFvPatchVectorField(p, iF),
     inletPatchName_("INLET"),
     oppositeOutletPatchName_("OUTLET_2"),
-    magnitudeVelocity_(0.),
-    values_(p.size())
+    magnitudeVelocity_(0.)
 {}
 
 
@@ -56,8 +55,7 @@ arteryScalingLawOutletFvPatchVectorField
     fixedValueFvPatchVectorField(p, iF),
     inletPatchName_("INLET"),
     oppositeOutletPatchName_("OUTLET_2"),
-    magnitudeVelocity_(0.),
-    values_(p.size())
+    magnitudeVelocity_(0.)
 {
     // Note: No need to have an updateCoeff method as the inlet value is constant 
     // fvPatchVectorField::operator=(patch().nf()*inletVelocity_);
@@ -66,11 +64,9 @@ arteryScalingLawOutletFvPatchVectorField
 
     inletPatchName_          = dict.lookupOrDefault<word>("inletPatchName", "INLET");
     oppositeOutletPatchName_ = dict.lookupOrDefault<word>("oppositeOutletPatchName", "OUTLET_2");
-    if (dict.found("values")){
+    if (dict.found("magnitudeVelocity")){
         dict.lookup("magnitudeVelocity") >> magnitudeVelocity_;
-        vectorField data("values", dict, p.size()) ;
-        values_ = data;
-        fvPatchVectorField::operator=(values_);
+        fvPatchVectorField::operator=(patch().nf() * magnitudeVelocity_);
     } else {
         updateCoeffs();
     }
@@ -89,8 +85,7 @@ arteryScalingLawOutletFvPatchVectorField
     fixedValueFvPatchVectorField(p, iF),
     inletPatchName_(ptf.inletPatchName_),
     oppositeOutletPatchName_(ptf.oppositeOutletPatchName_),
-    magnitudeVelocity_(ptf.magnitudeVelocity_),
-    values_(ptf.values_)
+    magnitudeVelocity_(ptf.magnitudeVelocity_)
 {}
 
 
@@ -103,8 +98,7 @@ arteryScalingLawOutletFvPatchVectorField
     fixedValueFvPatchVectorField(pivpvf),
     inletPatchName_(pivpvf.inletPatchName_),
     oppositeOutletPatchName_(pivpvf.oppositeOutletPatchName_),
-    magnitudeVelocity_(pivpvf.magnitudeVelocity_),
-    values_(pivpvf.values_)
+    magnitudeVelocity_(pivpvf.magnitudeVelocity_)
 {}
 
 
@@ -118,8 +112,7 @@ arteryScalingLawOutletFvPatchVectorField
     fixedValueFvPatchVectorField(pivpvf, iF),
     inletPatchName_(pivpvf.inletPatchName_),
     oppositeOutletPatchName_(pivpvf.oppositeOutletPatchName_),
-    magnitudeVelocity_(pivpvf.magnitudeVelocity_),
-    values_(pivpvf.values_)
+    magnitudeVelocity_(pivpvf.magnitudeVelocity_)
 {}
 
 
@@ -186,9 +179,8 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::updateCoeffs()
     // get the patch velocity 
     magnitudeVelocity_ = 
         currentOutletPatchFlowRate_/currentOutletPatchAreaTotal_;
-    values_ = patch().nf() * magnitudeVelocity_;
     //update the velocity field of the current outlet patch
-    this->operator==(values_);
+    this->operator==(patch().nf() * magnitudeVelocity_);
     // call the base class to ensure all the appropriate variables get updated
     fixedValueFvPatchVectorField::updateCoeffs();
 }
@@ -200,7 +192,6 @@ void Foam::arteryScalingLawOutletFvPatchVectorField::write(Ostream& os) const
     os.writeKeyword("inletPatchName") << inletPatchName_ << token::END_STATEMENT << nl;
     os.writeKeyword("oppositeOutletPatchName") << oppositeOutletPatchName_ << token::END_STATEMENT << nl;
     os.writeKeyword("magnitudeVelocity") << magnitudeVelocity_ << token::END_STATEMENT << nl;
-    values_.writeEntry("values", os);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

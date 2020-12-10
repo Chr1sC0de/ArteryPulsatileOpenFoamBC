@@ -69,7 +69,7 @@ class arteryPulsatileScalingLawInletFvPatchVectorField
         // switchOn
         scalar switchOn_;
         // values
-        vectorField values_;
+        // vectorField values_;
 
 
 

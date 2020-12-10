@@ -29,6 +29,10 @@
         "*.tcc": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp",
-        "Field.C": "cpp"
+        "Field.C": "cpp",
+        "ListIO.C": "cpp",
+        "dictionary.C": "cpp",
+        "DictionaryBase.C": "cpp",
+        "dictionaryTemplates.C": "cpp"
     }
 }

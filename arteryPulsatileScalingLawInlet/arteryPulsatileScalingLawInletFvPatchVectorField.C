@@ -43,8 +43,7 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     meanVelocity_(0.),
     cardiacCycle_(0.),
     magnitudeVelocity_(0.),
-    switchOn_(0.),
-    values_(p.size())
+    switchOn_(0.)
 {}
 
 Foam::arteryPulsatileScalingLawInletFvPatchVectorField::
@@ -61,8 +60,7 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     meanVelocity_(0.),
     cardiacCycle_(0.),
     magnitudeVelocity_(0.),
-    switchOn_(0.),
-    values_(p.size())
+    switchOn_(0.)
 {
     // Note: The following is the original code in this section 
     // fvPatchVectorField::operator=(patch().nf());
@@ -72,11 +70,9 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     cardiacCycle_        = dict.lookupOrDefault<scalar>("cardiacCycle", 0.8);
     switchOn_            = dict.lookupOrDefault<scalar>("switchOn", 0.);
 
-    if (dict.found("values")){
+    if (dict.found("magnitudeVelocity")){
         dict.lookup("magnitudeVelocity") >> magnitudeVelocity_;
-        vectorField data("values", dict, p.size());
-        values_ = data;
-        fvPatchVectorField::operator=(values_);
+        fvPatchVectorField::operator=(-patch().nf() * magnitudeVelocity_);
     } else {
         updateCoeffs();
     }
@@ -97,8 +93,7 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     meanVelocity_(ptf.meanVelocity_),
     cardiacCycle_(ptf.cardiacCycle_),
     magnitudeVelocity_(ptf.magnitudeVelocity_),
-    switchOn_(ptf.switchOn_),
-    values_(ptf.values_)
+    switchOn_(ptf.switchOn_)
 {}
 
 
@@ -114,8 +109,7 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     meanVelocity_(pivpvf.meanVelocity_),
     cardiacCycle_(pivpvf.cardiacCycle_),
     magnitudeVelocity_(pivpvf.magnitudeVelocity_),
-    switchOn_(pivpvf.switchOn_),
-    values_(pivpvf.values_)
+    switchOn_(pivpvf.switchOn_)
 {}
 
 
@@ -132,8 +126,7 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     meanVelocity_(pivpvf.meanVelocity_),
     cardiacCycle_(pivpvf.cardiacCycle_),
     magnitudeVelocity_(pivpvf.magnitudeVelocity_),
-    switchOn_(pivpvf.switchOn_),
-    values_(pivpvf.values_)
+    switchOn_(pivpvf.switchOn_)
 {}
 
 
@@ -210,8 +203,7 @@ void Foam::arteryPulsatileScalingLawInletFvPatchVectorField::updateCoeffs()
     } else {
         magnitudeVelocity_ = meanVelocity_;
     }
-    values_ = -normals * magnitudeVelocity_;
-    this->operator == (values_);
+    this->operator == (-normals * magnitudeVelocity_);
     // call the base class to ensure all the appropriate variables get updated
     fixedValueFvPatchVectorField::updateCoeffs();
 }
@@ -225,7 +217,6 @@ void Foam::arteryPulsatileScalingLawInletFvPatchVectorField::write(Ostream& os) 
     os.writeKeyword("cardiacCycle") << cardiacCycle_ << token::END_STATEMENT << nl;
     os.writeKeyword("magnitudeVelocity") << magnitudeVelocity_ << token::END_STATEMENT << nl;
     os.writeKeyword("switchOn") << switchOn_ << token::END_STATEMENT << nl;
-    values_.writeEntry("values", os);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

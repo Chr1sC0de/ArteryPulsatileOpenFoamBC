@@ -62,8 +62,6 @@ class arterySteadyScalingLawInletFvPatchVectorField
         scalar areaAssumedDiameter_;
         // the flow rate is in m^3/s
         scalar magnitudeVelocity_;
-        // the value of the inlet patch
-        vectorField values_;
 
 
 public:

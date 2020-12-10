@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "run icoFoam",
             "type": "cppdbg",
@@ -50,6 +51,26 @@
             "request": "launch",
             "program": "/home/cmamon/OpenFOAM/OpenFOAM-2.1.1/platforms/linux64Gcc48DPDebug/bin/reconstructPar",
             "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/../examples/steady_inlet_single_vessel",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "run mpi",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/bin/mpirun",
+            "args": ["/home/cmamon/OpenFOAM/OpenFOAM-2.1.1/platforms/linux64Gcc48DPDebug/bin/icoFoam", "-parallel"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/../examples/steady_inlet_single_vessel",
             "environment": [],
