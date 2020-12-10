@@ -30,6 +30,7 @@ boundaryField
 	INLET
 	{
 		type     arteryPulsatileScalingLawInlet;
+        switchOn 0.2;
         cardiacCycle 0.8;
 	}
 

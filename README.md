@@ -14,7 +14,17 @@ For two diameters a scaling law for the set of outflow ratios can be used
 
 Using mass conservation we know that
 
-<img src="https://render.githubusercontent.com/render/math?math=q_{1}+q_{2}=q_{in}">
+<img src="https://render.githubusercontent.com/render/math?math=q_{1} %2B q_{2}=q_{in}">
+
+Thus,
+
+<img src="https://render.githubusercontent.com/render/math?math=q_{2}=q_{1}\left(\dfrac{d_2}{d_1}\right)^{2.27}">
+
+and,
+
+<img src="https://render.githubusercontent.com/render/math?math=q_{1}=\dfrac{q_{in}}{1 %2B \left(\dfrac{d_2}{d_1}\right)^{2.27}}">
+
+Thus we can build our boundary conditions to satisfy  the above equations
 
 ## Building the Boundary Conditions
 

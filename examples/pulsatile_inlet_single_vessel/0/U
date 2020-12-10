@@ -31,8 +31,8 @@ boundaryField
 	INLET
 	{
 		type     arteryPulsatileScalingLawInlet;
-        switchOn 0.1;
-        cardiacCycle 0.8;
+        switchOn 0.2; // when to turn on the pulsatile flow
+        cardiacCycle 0.8; // the seconds per cycle
 	}
 
     OUTLET
