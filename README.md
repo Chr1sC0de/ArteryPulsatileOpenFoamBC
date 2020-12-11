@@ -1,6 +1,9 @@
 # Artery Scaling Law Boundary Conditions
 
-Scaling law boundary conditions for OpenFoam 2.1.1 based off the paper 
+![](movie/single_vessel.gif)
+![](movie/bifurcation.gif)
+
+Scaling law boundary conditions for OpenFoam 2.1.1 based off the paper
 [Functional and anatomical measures for outflow boundary conditions in atherosclerotic coronary bifurcations](https://www.researchgate.net/publication/285045581_Functional_and_anatomical_measures_for_outflow_boundary_conditions_in_atherosclerotic_coronary_bifurcations).
 
 A representative inlet flow rate for a case can be found by using a diameter flow
@@ -8,7 +11,7 @@ relation,
 
 <img src="https://render.githubusercontent.com/render/math?math=q_{in}=1.43d^{2.55}">
 
-For two diameters a scaling law for the set of outflow ratios can be used 
+For two diameters a scaling law for the set of outflow ratios can be used
 
 <img src="https://render.githubusercontent.com/render/math?math=\dfrac{q_2}{q_1}=\left(\dfrac{d_2}{d_1}\right)^{2.27}">
 
@@ -54,13 +57,13 @@ To change the number of processors used for all cases
 ``` shell
 cd examples
 # The following code will change the ncpus variable in the openfoam_job.sh
-# As well as the numberOfSubdomains is the systems/decomposeParDict file
+# As well as the numberOfSubdomains in the systems/decomposeParDict file
 ./change_ncpus.sh -n <number of cpus>
 ```
 
 ## Cleaning the Boundary Conditions
 
-To uninstall all the boundary conditions 
+To uninstall all the boundary conditions
 
 ``` shell
 cd  ArteryScalingLawsBC
