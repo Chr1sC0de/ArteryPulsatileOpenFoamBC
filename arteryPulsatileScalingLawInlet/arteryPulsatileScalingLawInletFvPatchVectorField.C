@@ -62,7 +62,7 @@ arteryPulsatileScalingLawInletFvPatchVectorField
     magnitudeVelocity_(0.),
     switchOn_(0.)
 {
-    // Note: The following is the original code in this section 
+    // Note: The following is the original code in this section
     // fvPatchVectorField::operator=(patch().nf());
     area_                = dict.lookupOrDefault<scalar>("area", sum(patch().magSf()));
     areaAssumedDiameter_ = dict.lookupOrDefault<scalar>("areaAssumedDiameter", 2*std::sqrt(area_/PI));
@@ -166,9 +166,12 @@ void Foam::arteryPulsatileScalingLawInletFvPatchVectorField::updateCoeffs()
     scalar t                  = this->db().time().value();
 
     if (t >= switchOn_){
-        magnitudeVelocity_= 
+
+        t -= switchOn_;
+
+        magnitudeVelocity_=
             meanVelocity_-
-            (    
+            (
                 2.83586*std::cos((1*2*PI/cardiacCycle_)*t)+
                 0.13367*std::sin((1*2*PI/cardiacCycle_)*t)-
                 1.09937*std::cos((2*2*PI/cardiacCycle_)*t)-

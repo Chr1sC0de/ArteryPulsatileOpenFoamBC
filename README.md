@@ -27,7 +27,14 @@ and,
 
 <img src="https://render.githubusercontent.com/render/math?math=q_{1}=\dfrac{q_{in}}{1 %2B \left(\dfrac{d_2}{d_1}\right)^{2.27}}">
 
-Thus we can build our boundary conditions to satisfy  the above equations
+Thus we can build our boundary conditions to satisfy the above equations.
+The boundary conditions have been made for both steady and pulsatile conditions.
+When the flow is pulsatile a pulsatile inlet velocity waveform is used which is
+consistent with in vivo physiological conditions (i.e. human
+heartbeat).
+
+![](images/waveform.PNG)
+
 
 ## Building the Boundary Conditions
 
@@ -68,4 +75,65 @@ To uninstall all the boundary conditions
 ``` shell
 cd  ArteryScalingLawsBC
 ./Allwclean
+```
+
+## Example U File
+
+The following shows how the pulsatile boundary conditions can be implemented within a U file
+
+``` c++
+
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    WALL
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+
+	INLET
+	{
+        // if steady use arterySteadyScalingLawInlet
+		type     arteryPulsatileScalingLawInlet;
+        switchOn 0.2; // Time to wait before activating the pulsatile flow
+        cardiacCycle 0.8;
+	}
+
+    OUTLET_1
+    {
+        type           arteryScalingLawOutlet;
+        //NOTE: only necessary if we change the inlet patch name,
+        inletPatchName INLET;
+        //NOTE: only necessary if we change the outlet patch name,
+        oppositeOutletPatchName OUTLET_2;
+    }
+
+    OUTLET_2
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
 ```
